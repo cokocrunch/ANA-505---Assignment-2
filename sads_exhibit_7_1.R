@@ -1,3 +1,4 @@
+#ANA 505 - Assignment 2 - Tze Ning Wong (Nico)
 # Predictive Model for Los Angeles Dodgers Promotion and Attendance (R)
 
 #these libraries are called in order visualize the data and also call regression functions for our machine learning purposes. R does offer basic visualization but
