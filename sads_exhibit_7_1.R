@@ -121,6 +121,7 @@ dodgers.test$predict_attend <- predict(train.model.fit,
 
 # compute the proportion of response variance
 # accounted for when predicting out-of-sample
+# this is the square of the the correlation of observed and predicted attendance
 cat("\n","Proportion of Test Set Variance Accounted for: ",
 round((with(dodgers.test,cor(attend,predict_attend)^2)),
   digits=3),"\n",sep="")
@@ -128,6 +129,7 @@ round((with(dodgers.test,cor(attend,predict_attend)^2)),
 dodgers.plotting.frame <- rbind(dodgers.train,dodgers.test)
 
 # generate predictive modeling visual for management
+# visualize the regression model performance on how bobbleheads affected attendance. This was predicted for the training data and test data and visualized side by side.
 group.labels <- c("No Bobbleheads","Bobbleheads")
 group.symbols <- c(21,24)
 group.colors <- c("black","black") 
@@ -156,15 +158,21 @@ print(summary(my.model.fit))
 # tests statistical significance of the bobblehead promotion
 # type I anova computes sums of squares for sequential tests
 print(anova(my.model.fit))  
+#compute the estimated coefficients for each feature and their effect on attendance 
 cat("\n","Estimated Effect of Bobblehead Promotion on Attendance: ",
 round(my.model.fit$coefficients[length(my.model.fit$coefficients)],
 digits = 0),"\n",sep="")
 # standard graphics provide diagnostic plots
+# visualize how well the model fits to the historical data
 plot(my.model.fit)
 # additional model diagnostics drawn from the car package
 library(car)
+#plot the residual of the simple linear regression model of the dataset against the independent variable
 residualPlots(my.model.fit)
+#draw a plot of the response on the vertical axis vs a linear combination of regressors in the mean function on the horizontal axis
 marginalModelPlots(my.model.fit)
+#The Bonferroni Outlier Tests uses a t distribution to test whether the model's largest studentized residual value's outlier status is statistically 
+#different from the other observations in the model. A significant p-value indicates an extreme outlier that warrants further examination.
 print(outlierTest(my.model.fit))
 
 
